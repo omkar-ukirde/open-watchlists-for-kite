@@ -1,0 +1,51 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "open-watchlists-for-kite"
+version = "0.1.0"
+description = "Composable, official-source-only predefined watchlists for Zerodha Kite Connect — Nifty indices, F&O underlyings, sector buckets, all derivable from the public instruments dump."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Omkar Ukirde" },
+]
+keywords = ["zerodha", "kite", "kiteconnect", "nse", "trading", "watchlist", "nifty", "fno", "algotrading"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+dependencies = []
+
+[project.optional-dependencies]
+update = ["requests>=2.28"]
+test = ["pytest>=7.0"]
+dev = ["pytest>=7.0", "requests>=2.28", "ruff>=0.4"]
+
+[project.urls]
+Homepage = "https://github.com/omkar-ukirde/open-watchlists-for-kite"
+Issues = "https://github.com/omkar-ukirde/open-watchlists-for-kite/issues"
+
+[project.scripts]
+open-watchlists-update = "open_watchlists.update:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/open_watchlists"]
+
+[tool.hatch.build]
+include = [
+    "src/open_watchlists/**/*.py",
+    "src/open_watchlists/data/*.txt",
+    "src/open_watchlists/data/_manifest.json",
+]

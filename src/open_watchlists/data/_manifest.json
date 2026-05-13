@@ -1,0 +1,99 @@
+{
+  "version": "0.1.0",
+  "snapshot_date": "2026-05-13",
+  "source_base": "https://archives.nseindia.com/content/indices/",
+  "exchange": "NSE",
+  "note": "Symbol lists snapshotted from NSE's published index constituent CSVs. Re-fetch via `open-watchlists-update` whenever NSE reviews indices (typically Mar/Sep). Placeholder DUMMY* symbols come from NSE during corporate-action transitions and pass through unchanged.",
+  "lists": {
+    "nifty50": {
+      "name": "Nifty 50",
+      "file": "nifty50.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_nifty50list.csv",
+      "description": "Flagship NSE benchmark: 50 of the largest and most liquid Indian blue-chip companies."
+    },
+    "nifty_next50": {
+      "name": "Nifty Next 50",
+      "file": "nifty_next50.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftynext50list.csv",
+      "description": "Stocks ranked 51-100 by free-float market cap on NSE."
+    },
+    "nifty100": {
+      "name": "Nifty 100",
+      "file": "nifty100.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_nifty100list.csv",
+      "description": "Top 100 NSE stocks by free-float market cap (Nifty 50 + Nifty Next 50)."
+    },
+    "nifty200": {
+      "name": "Nifty 200",
+      "file": "nifty200.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_nifty200list.csv",
+      "description": "Top 200 NSE stocks by free-float market cap (large + mid)."
+    },
+    "nifty500": {
+      "name": "Nifty 500",
+      "file": "nifty500.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_nifty500list.csv",
+      "description": "Top 500 NSE stocks — covers ~96% of total free-float market cap."
+    },
+    "nifty_midcap150": {
+      "name": "Nifty Midcap 150",
+      "file": "nifty_midcap150.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftymidcap150list.csv",
+      "description": "Mid-cap segment of the Nifty 500 (ranks 101-250)."
+    },
+    "banknifty": {
+      "name": "Bank Nifty",
+      "file": "banknifty.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftybanklist.csv",
+      "description": "Most-liquid banking stocks on NSE — also the underlying for Bank Nifty derivatives."
+    },
+    "nifty_it": {
+      "name": "Nifty IT",
+      "file": "nifty_it.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftyitlist.csv",
+      "description": "Information technology sector constituents."
+    },
+    "nifty_pharma": {
+      "name": "Nifty Pharma",
+      "file": "nifty_pharma.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftypharmalist.csv",
+      "description": "Pharmaceutical sector constituents."
+    },
+    "nifty_auto": {
+      "name": "Nifty Auto",
+      "file": "nifty_auto.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftyautolist.csv",
+      "description": "Auto OEM, auto-ancillary, and 2-wheeler constituents."
+    },
+    "nifty_fmcg": {
+      "name": "Nifty FMCG",
+      "file": "nifty_fmcg.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftyfmcglist.csv",
+      "description": "Fast-moving consumer goods constituents."
+    },
+    "nifty_metal": {
+      "name": "Nifty Metal",
+      "file": "nifty_metal.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftymetallist.csv",
+      "description": "Ferrous and non-ferrous metals sector constituents."
+    },
+    "nifty_realty": {
+      "name": "Nifty Realty",
+      "file": "nifty_realty.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftyrealtylist.csv",
+      "description": "Real estate sector constituents."
+    },
+    "nifty_energy": {
+      "name": "Nifty Energy",
+      "file": "nifty_energy.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftyenergylist.csv",
+      "description": "Oil & gas, power, and renewable energy constituents."
+    },
+    "nifty_financial_services": {
+      "name": "Nifty Financial Services",
+      "file": "nifty_financial_services.txt",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftyfinancelist.csv",
+      "description": "Banks, NBFCs, insurance, and capital-markets infrastructure stocks."
+    }
+  }
+}
