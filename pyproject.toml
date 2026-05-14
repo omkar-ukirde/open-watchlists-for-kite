@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "open-watchlists-for-kite"
-version = "0.1.0"
+version = "0.2.0"
 description = "Composable, official-source-only predefined watchlists for Zerodha Kite Connect — Nifty indices, F&O underlyings, sector buckets, all derivable from the public instruments dump."
 readme = "README.md"
 requires-python = ">=3.9"

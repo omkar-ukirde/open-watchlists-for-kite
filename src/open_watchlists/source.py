@@ -42,8 +42,34 @@ class OpenWatchlists:
     ) -> None:
         self._kite = kite
         self._instruments_index: Optional[dict] = None
+        self._live = None
         if instruments is not None:
             self._instruments_index = _resolve.build_instruments_index(instruments)
+
+    # ------------------------------------------------------------------
+    # Live screeners (lazy — imported on first access to keep import-time
+    # graph minimal for users who never touch kite.quote()-based features)
+    # ------------------------------------------------------------------
+
+    @property
+    def live(self):
+        """Access live, ``kite.quote()``-backed screeners.
+
+        Returns a :class:`LiveScreener` lazily bound to this instance's
+        kite client. Requires an authenticated kite — methods on the
+        returned object raise ``ValueError`` if ``kite=None`` was passed
+        to ``OpenWatchlists``.
+
+        Example::
+
+            ow = OpenWatchlists(kite)
+            gainers = ow.live.top_gainers(ow.nifty50(), n=5)
+            buzzers = ow.live.top_by_traded_value(ow.fno_underlyings(), n=10)
+        """
+        if self._live is None:
+            from .live import LiveScreener
+            self._live = LiveScreener(self._kite)
+        return self._live
 
     # ------------------------------------------------------------------
     # Discovery

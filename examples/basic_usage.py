@@ -63,6 +63,26 @@ def main() -> None:
     payload = nifty50.to_kite_format()
     print(f"\nFirst Kite-format row: {payload[0]}")
 
+    # ------------------------------------------------------------------
+    # v0.2 live screeners — single batched kite.quote() per call
+    # ------------------------------------------------------------------
+    print("\n=== Top 5 gainers in Nifty 50 (live) ===")
+    snapshot = ow.live.snapshot(nifty50)
+    for it in ow.live.top_gainers(nifty50, n=5):
+        stats = snapshot.get(it.symbol, {})
+        chg = stats.get("change_percent")
+        if chg is not None:
+            print(f"  {it.symbol:12} {chg:+.2f}%  LTP={stats.get('last_price')}")
+
+    print("\n=== Top 5 buzzers (traded value) in F&O ===")
+    for it in ow.live.top_by_traded_value(fno, n=5):
+        print(f"  {it.symbol}")
+
+    print("\n=== Bank Nifty stocks near day's high ===")
+    near_high = ow.live.at_day_high(ow.banknifty(), tolerance_pct=0.5)
+    for it in near_high:
+        print(f"  {it.symbol}")
+
 
 if __name__ == "__main__":
     main()

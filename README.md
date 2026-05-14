@@ -50,6 +50,52 @@ nifty50.to_kite_format()   # list[dict] in kite.instruments() column shape
 nifty50.to_dict()          # {symbol: {...}} dict
 ```
 
+## Live screeners (v0.2)
+
+Snapshot-based filters and rankings over any `Watchlist` universe, all powered by a single batched `kite.quote()` call. Access via `ow.live`:
+
+```python
+ow = OpenWatchlists(kite)
+universe = ow.nifty500()                              # or any composed list
+
+# Rankings — strict semantics: gainers > 0%, losers < 0% (never overlap)
+ow.live.top_gainers(universe, n=10)
+ow.live.top_losers(universe, n=10)
+ow.live.top_by_volume(universe, n=10)                 # ranked by today's volume
+ow.live.top_by_traded_value(universe, n=10)           # volume × LTP (better liquidity signal)
+
+# Threshold filters
+ow.live.gainers_above(universe, percent=2.0)          # %change ≥ 2.0 (inclusive)
+ow.live.losers_below(universe, percent=2.0)           # %change ≤ -2.0 (sign-tolerant)
+
+# Day-extreme proximity
+ow.live.at_day_high(universe, tolerance_pct=0.1)      # within 0.1% of today's high
+ow.live.at_day_low(universe, tolerance_pct=0.1)
+
+# Strict above/below previous close
+ow.live.above_prev_close(universe)                    # %change > 0  (excludes flat)
+ow.live.below_prev_close(universe)                    # %change < 0
+
+# Raw stats — when you want numbers, not a ranked list
+ow.live.snapshot(universe)
+# → {"RELIANCE": {"last_price": 1234.5, "change_percent": 2.1, "volume": ..., "ohlc": {...}}, ...}
+```
+
+Screener results are regular `Watchlist` objects — `|`, `&`, `-` all compose with the bundled lists:
+
+```python
+# Buzzers within F&O
+ow.live.top_by_traded_value(ow.fno_underlyings(), n=20)
+
+# Banking gainers that are also F&O
+ow.live.top_gainers(ow.banknifty(), n=10) & ow.fno_underlyings()
+
+# Mid-caps that are *not* trading near day's high (counter-trend candidates)
+ow.nifty_midcap150() - ow.live.at_day_high(ow.nifty_midcap150())
+```
+
+Strict-vs-inclusive at zero: `top_gainers` / `above_prev_close` use **strict** `> 0`, so `top_gainers ∩ top_losers = ∅` is always true. For inclusive `≥ 0` use `gainers_above(universe, 0.0)`.
+
 ## Available predefined lists (v0.1)
 
 | Key | Source | Notes |
@@ -116,7 +162,7 @@ By design:
 
 - **No Kite Web scraping.** Nothing hits `kite.zerodha.com` outside of `KiteConnect`'s documented endpoints.
 - **No enctoken / CSRF tokens.** Pure Kite Connect bearer-token auth.
-- **No live screeners.** Top-gainers / top-volume / 52-week-highs are *not* in v0.1 — those need `kite.quote()` and feel more like "live screener" than "data utility". Maybe v0.2.
+- **No historical-data-backed screeners** *(yet)*. 52-week high/low, 20-day H/L, moving averages, RSI, etc. all need `kite.historical_data()` calls per symbol — different rate-limit profile, different caching story. Coming in v0.3.
 - **No BSE support yet.** v0.1 is NSE-only, mirroring most retail algo use cases.
 
 ## Architecture

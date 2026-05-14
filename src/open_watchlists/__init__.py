@@ -36,5 +36,5 @@ CSRF based access. Every datapoint is sourced from Zerodha's documented
 from .source import OpenWatchlists
 from .watchlist import Watchlist, WatchlistItem
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __all__ = ["OpenWatchlists", "Watchlist", "WatchlistItem", "__version__"]
