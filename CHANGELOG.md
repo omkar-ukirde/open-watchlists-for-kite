@@ -5,6 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-05-14
+
+### Added
+
+- **Live fetch mode** — `OpenWatchlists` now defaults to `live=True`, meaning each call to `get(key)` / `nifty50()` / etc. hits the NSE archive URL on first access (cached per-instance for the lifetime of the object). On network failure, falls back to the bundled snapshot when one exists. Pass `live=False` for fully offline / deterministic test runs.
+- **8 new Nifty index families** (live-only — no bundled snapshot, fetched fresh from NSE):
+  - `nifty_midcap50` (50)
+  - `nifty_smallcap50` (50)
+  - `nifty_smallcap100` (100)
+  - `nifty_smallcap250` (250)
+  - `nifty_midsmallcap400` (Midcap 150 ∪ Smallcap 250)
+  - `nifty_largemidcap250` (Nifty 100 ∪ Midcap 150)
+  - `nifty_microcap250` (250 beyond Nifty 500)
+  - `nifty_totalmarket` (Nifty 500 ∪ Microcap 250)
+- Named accessor methods for each of the above (`ow.nifty_midcap50()`, etc.).
+
+### Fixed
+
+- **`fno_underlyings()` no longer leaks index names** like `NIFTY` / `BANKNIFTY` / `FINNIFTY` / `MIDCPNIFTY` / `NIFTYNXT50`. Previously, every unique `name` from NFO `FUT` rows was returned — but index futures share a `name` with the index itself, which has no NSE EQ counterpart you can buy as a single share. Now cross-referenced against the NSE EQ instruments dump and filtered to underlyings that exist as `instrument_type == 'EQ'`.
+
+### Changed
+
+- Manifest entries can now omit the `file` field for live-only lists (no bundled snapshot required).
+- Existing tests updated to construct `OpenWatchlists(live=False)` so the suite stays deterministic and offline-safe.
+
+### Notes
+
+- This is a soft-breaking change for any caller that relied on `fno_underlyings()` returning index names. If you actually wanted those, query `kite.instruments('NFO')` directly — that's the right tool.
+- Zero new runtime dependencies. Live fetch uses stdlib `urllib`.
+
 ## [0.2.0] - 2026-05-14
 
 ### Added

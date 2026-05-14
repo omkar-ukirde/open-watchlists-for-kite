@@ -96,7 +96,7 @@ ow.nifty_midcap150() - ow.live.at_day_high(ow.nifty_midcap150())
 
 Strict-vs-inclusive at zero: `top_gainers` / `above_prev_close` use **strict** `> 0`, so `top_gainers ∩ top_losers = ∅` is always true. For inclusive `≥ 0` use `gainers_above(universe, 0.0)`.
 
-## Available predefined lists (v0.1)
+## Available predefined lists
 
 | Key | Source | Notes |
 | --- | --- | --- |
@@ -105,7 +105,15 @@ Strict-vs-inclusive at zero: `top_gainers` / `above_prev_close` use **strict** `
 | `nifty100` | NSE | Top 100 by free-float mcap |
 | `nifty200` | NSE | Top 200 |
 | `nifty500` | NSE | Top 500 (~96% of free-float mcap) |
+| `nifty_midcap50` | NSE | 50 most-liquid mid-caps *(v0.3, live-only)* |
 | `nifty_midcap150` | NSE | Mid-cap segment of Nifty 500 |
+| `nifty_smallcap50` | NSE | 50 most-liquid small-caps *(v0.3, live-only)* |
+| `nifty_smallcap100` | NSE | Top 100 small-caps *(v0.3, live-only)* |
+| `nifty_smallcap250` | NSE | Small-cap segment of Nifty 500 *(v0.3, live-only)* |
+| `nifty_midsmallcap400` | NSE | Midcap 150 ∪ Smallcap 250 *(v0.3, live-only)* |
+| `nifty_largemidcap250` | NSE | Nifty 100 ∪ Midcap 150 *(v0.3, live-only)* |
+| `nifty_microcap250` | NSE | Top 250 beyond Nifty 500 *(v0.3, live-only)* |
+| `nifty_totalmarket` | NSE | Nifty 500 ∪ Microcap 250 *(v0.3, live-only)* |
 | `banknifty` | NSE | Bank Nifty constituents |
 | `nifty_it` | NSE | IT sector |
 | `nifty_pharma` | NSE | Pharma sector |
@@ -115,9 +123,23 @@ Strict-vs-inclusive at zero: `top_gainers` / `above_prev_close` use **strict** `
 | `nifty_realty` | NSE | Realty sector |
 | `nifty_energy` | NSE | Energy + power |
 | `nifty_financial_services` | NSE | Financials |
-| `fno_underlyings` | Kite Connect API (live) | Every NSE EQ symbol with F&O contracts |
+| `fno_underlyings` | Kite Connect API (live) | NSE EQ symbols with F&O contracts — **excludes** index underlyings (NIFTY/BANKNIFTY/FINNIFTY/etc. — these have FUT contracts but no equity ticker you can buy a single share of) |
 
 `ow.available()` returns the keys; `ow.metadata(key)` returns descriptive metadata.
+
+### Live fetch vs bundled snapshot (v0.3+)
+
+By default, `OpenWatchlists` fetches each list directly from NSE archives the first time you ask for it (`https://archives.nseindia.com/content/indices/ind_*.csv`). Results are cached for the lifetime of the instance, so repeated calls within one session don't re-fetch. On network failure the library falls back to the bundled snapshot when one exists for that list.
+
+```python
+# Default — live fetch, fresh from NSE
+ow = OpenWatchlists(kite)
+
+# Offline / deterministic — only bundled snapshots
+ow = OpenWatchlists(kite, live=False)
+```
+
+The v0.3-added broader Nifty indices (Smallcap 50/100/250, Midcap 50, Total Market, etc.) are **live-only** — no bundled `.txt` ships for them. They work out of the box in live mode but require network. Run `open-watchlists-update` to snapshot them locally if you want offline support for those keys.
 
 ## Composition
 

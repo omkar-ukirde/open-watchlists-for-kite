@@ -91,7 +91,9 @@ def kite():
 
 @pytest.fixture
 def ow(kite):
-    return OpenWatchlists(kite)
+    # live=False so the test universes come from bundled snapshots, not
+    # from a live NSE fetch — keeps the screener tests deterministic.
+    return OpenWatchlists(kite, live=False)
 
 
 @pytest.fixture
@@ -270,7 +272,7 @@ def test_screener_output_is_composable_with_set_ops(ow, universe):
 
 
 def test_offline_mode_raises_clear_error():
-    ow_offline = OpenWatchlists()  # no kite
+    ow_offline = OpenWatchlists(live=False)  # no kite
     universe = Watchlist([WatchlistItem("RELIANCE")], name="u")
     with pytest.raises(ValueError, match="authenticated kite"):
         ow_offline.live.top_gainers(universe, n=5)
@@ -294,7 +296,7 @@ def test_quote_failure_yields_empty_snapshot():
             raise RuntimeError("network down")
 
     failing = FailingKite(INSTRUMENTS, QUOTES)
-    ow_failing = OpenWatchlists(failing)
+    ow_failing = OpenWatchlists(failing, live=False)
     universe = Watchlist([WatchlistItem("RELIANCE")], name="u")
     snap = ow_failing.live.snapshot(universe)
     assert snap == {}

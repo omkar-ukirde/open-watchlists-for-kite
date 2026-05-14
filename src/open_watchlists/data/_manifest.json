@@ -1,9 +1,9 @@
 {
-  "version": "0.1.0",
+  "version": "0.3.0",
   "snapshot_date": "2026-05-13",
   "source_base": "https://archives.nseindia.com/content/indices/",
   "exchange": "NSE",
-  "note": "Symbol lists snapshotted from NSE's published index constituent CSVs. Re-fetch via `open-watchlists-update` whenever NSE reviews indices (typically Mar/Sep). Placeholder DUMMY* symbols come from NSE during corporate-action transitions and pass through unchanged.",
+  "note": "Default behaviour: OpenWatchlists fetches each list directly from source_url at runtime (cached per-instance). The bundled .txt files are offline fallbacks — used when network fetch fails or when live=False. Entries WITHOUT a 'file' field are live-only (no bundled snapshot). Placeholder DUMMY* symbols come from NSE during corporate-action transitions and pass through unchanged.",
   "lists": {
     "nifty50": {
       "name": "Nifty 50",
@@ -94,6 +94,46 @@
       "file": "nifty_financial_services.txt",
       "source_url": "https://archives.nseindia.com/content/indices/ind_niftyfinancelist.csv",
       "description": "Banks, NBFCs, insurance, and capital-markets infrastructure stocks."
+    },
+    "nifty_midcap50": {
+      "name": "Nifty Midcap 50",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftymidcap50list.csv",
+      "description": "50 most-liquid mid-cap stocks from the Nifty Midcap 150 universe."
+    },
+    "nifty_smallcap50": {
+      "name": "Nifty Smallcap 50",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftysmallcap50list.csv",
+      "description": "50 most-liquid small-cap stocks from the Nifty Smallcap 250 universe."
+    },
+    "nifty_smallcap100": {
+      "name": "Nifty Smallcap 100",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftysmallcap100list.csv",
+      "description": "Top 100 small-cap NSE stocks by free-float market cap."
+    },
+    "nifty_smallcap250": {
+      "name": "Nifty Smallcap 250",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftysmallcap250list.csv",
+      "description": "Small-cap segment of the Nifty 500 (ranks 251-500)."
+    },
+    "nifty_midsmallcap400": {
+      "name": "Nifty MidSmallcap 400",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftymidsmallcap400list.csv",
+      "description": "Mid-cap + small-cap combined (Nifty Midcap 150 ∪ Nifty Smallcap 250)."
+    },
+    "nifty_largemidcap250": {
+      "name": "Nifty LargeMidcap 250",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftylargemidcap250list.csv",
+      "description": "Large-cap + mid-cap combined (Nifty 100 ∪ Nifty Midcap 150)."
+    },
+    "nifty_microcap250": {
+      "name": "Nifty Microcap 250",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftymicrocap250_list.csv",
+      "description": "Top 250 stocks beyond the Nifty 500 universe, ranked by market cap."
+    },
+    "nifty_totalmarket": {
+      "name": "Nifty Total Market",
+      "source_url": "https://archives.nseindia.com/content/indices/ind_niftytotalmarket_list.csv",
+      "description": "Nifty 500 + Nifty Microcap 250 — broadest NSE index in this family."
     }
   }
 }
